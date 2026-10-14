@@ -1,0 +1,56 @@
+# Render Blueprint — deploy this backend with one click.
+# Docs: https://render.com/docs/blueprint-spec
+#
+# In the Render dashboard, set the "sync: false" values (secrets) yourself:
+#   MONGO_URI, ADMIN_EMAIL, ADMIN_PASSWORD, PUBLIC_BASE_URL, CORS_ORIGIN,
+#   TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_SMS_FROM, TWILIO_WHATSAPP_FROM
+# JWT_SECRET is auto-generated for you.
+services:
+  - type: web
+    name: mandi-truck-api
+    runtime: node
+    plan: free
+    region: singapore
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Render provides PORT automatically; the app binds it in production.
+      - key: JWT_SECRET
+        generateValue: true
+      - key: MONGO_URI
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_NAME
+        value: Admin
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false
+      - key: NEAR_DEST_KM
+        value: "15"
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_SMS_FROM
+        sync: false
+      - key: TWILIO_WHATSAPP_FROM
+        sync: false
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: RAZORPAY_WEBHOOK_SECRET
+        sync: false
+      - key: PAYMENT_CURRENCY
+        value: INR
+      - key: API_PUBLIC_URL
+        sync: false
