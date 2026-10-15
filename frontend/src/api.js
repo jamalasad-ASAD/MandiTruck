@@ -1,8 +1,11 @@
 import { getToken, setToken } from "./token.js";
 
-// In production set VITE_API_BASE_URL to your backend (e.g. Render URL).
-// Left blank in dev, so requests go to /api and Vite proxies them.
-const BASE = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
+// Render Backend URL fallback ke sath set kiya gaya hai
+const BASE = (
+  import.meta.env.VITE_API_BASE_URL || 
+  import.meta.env.VITE_API_URL || 
+  "https://manditruck-2.onrender.com"
+).replace(/\/$/, "");
 
 async function handle(res) {
   if (res.status === 401) {
