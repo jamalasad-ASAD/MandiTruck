@@ -24,14 +24,21 @@ app.set("trust proxy", 1);
 
 app.use(helmet());
 
-// CORS: only the origins listed in CORS_ORIGIN may call the API.
+// CORS: Automatically allow Vercel frontends and configured origins.
 app.use(
   cors({
     origin(origin, cb) {
       if (!origin) return cb(null, true); // same-origin / curl / server-to-server
-      if (config.corsOrigins.includes("*") || config.corsOrigins.includes(origin)) return cb(null, true);
+      if (
+        config.corsOrigins.includes("*") || 
+        config.corsOrigins.includes(origin) ||
+        origin.endsWith(".vercel.app") // Automatically allows all Vercel deployments & previews
+      ) {
+        return cb(null, true);
+      }
       return cb(new Error(`Origin not allowed by CORS: ${origin}`));
-    }
+    },
+    credentials: true
   })
 );
 
