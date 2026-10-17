@@ -13,6 +13,13 @@ function ChannelChip({ channel, status }) {
   );
 }
 
+// Safe date formatter to prevent "Invalid Date"
+function formatTime(dateString) {
+  if (!dateString) return "";
+  const d = new Date(dateString);
+  return isNaN(d.getTime()) ? "" : d.toLocaleTimeString("en-IN");
+}
+
 export default function Tracking() {
   const [trips, setTrips] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
@@ -203,7 +210,7 @@ export default function Tracking() {
                     <span className="feed-event">{EVENT_LABEL[n.event] || n.event}</span>
                     <span className="feed-to">→ {n.recipientName} ({n.recipientRole})</span>
                     <ChannelChip channel={n.channel} status={n.status} />
-                    <span className="feed-time">{new Date(n.createdAt).toLocaleTimeString("en-IN")}</span>
+                    {formatTime(n.createdAt) && <span className="feed-time">{formatTime(n.createdAt)}</span>}
                   </li>
                 ))}
               </ul>
